@@ -1,0 +1,12 @@
+/*Our Partner Section*/
+.ourPartners__title {
+  text-align: center;
+}
+.ourPartners__logo {
+  text-align: center;
+  justify-content: center;
+}
+.ourPartners__logo img {
+  width: 15%;
+  margin: 15px 50px 0 50px;
+}

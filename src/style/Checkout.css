@@ -1,0 +1,28 @@
+/*Customer Details*/
+
+/*Order Summary*/
+.order__summary {
+  background: #e8b0af;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+tr,
+td {
+  border: none !important;
+}
+
+.place__order {
+  display: flex;
+  margin: auto;
+  width: 200px;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  background: #bcc998;
+  border: none;
+  padding: 4px 20px;
+  border-radius: 50px;
+  color: #000;
+  font-weight: 500;
+}

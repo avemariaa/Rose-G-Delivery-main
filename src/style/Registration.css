@@ -1,0 +1,53 @@
+.registration__body {
+  width: 100%;
+  height: auto;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.authForm__container,
+.registration__form {
+  display: flex;
+  flex-direction: column;
+}
+.authForm__container {
+  padding: 5rem;
+  border: 5px solid #bcc998;
+  border-radius: 50px;
+  background-color: #e8b0af;
+}
+label {
+  text-align: left;
+  padding: 0.25rem 0;
+}
+.errorMsg {
+  color: red;
+  font-size: 14px;
+}
+.customErrorMsg {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+}
+input {
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+}
+.termsConditionTxt,
+.privacyPolicyTxt,
+.signInTxt {
+  text-decoration: underline;
+  color: #c26522;
+  cursor: pointer;
+}
+button {
+  border: none;
+  background-color: #bcc998;
+  padding: 10px;
+  border-radius: 50px;
+  cursor: pointer;
+}

@@ -1,0 +1,46 @@
+.home__slides {
+  width: calc(100% + 30px);
+  height: auto;
+}
+.prev__btn,
+.next__btn {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  background: transparent !important;
+  color: #bcc998;
+  font-size: 2.5rem;
+  border: 0;
+}
+.prev__btn {
+  left: 5%;
+}
+.next__btn {
+  right: 5%;
+}
+.homeSlider__img img {
+  width: 100%;
+  height: 500px;
+}
+
+@media only screen and (max-width: 992px) {
+  .home__slides,
+  .homeSlider__img img {
+    width: 100%;
+    height: 500px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .home__slides,
+  .homeSlider__img img {
+    width: 100%;
+    height: 500px;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .home__slides {
+    width: 100%;
+  }
+}
