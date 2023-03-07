@@ -7,7 +7,7 @@ const UserProfile = () => {
       <Container>
         <h2>User Profile</h2>
         <p className="mt-3">
-          tapos dito naman yung profile dito ba yung makikita na rin ni user yung order history kineme???
+          tapos dito naman yung profile dito ba yung makikita na rin ni user yung order history kineme??? DAPAT MAKITA KO TO NA NAG EDIT
         </p>
 
        
