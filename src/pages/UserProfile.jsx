@@ -1,6 +1,5 @@
 import { collection, getDocs } from "firebase/firestore";
 import { Link } from "react-router-dom";
-
 import React, { useEffect, useState } from "react";
 import { Container } from "reactstrap";
 import { db } from "../firebase";
