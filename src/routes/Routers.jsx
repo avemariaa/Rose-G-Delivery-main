@@ -1,6 +1,8 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
+import PrivateRoute from "./PrivateRoute";
+
 import Home from "../pages/Home";
 import Menu from "../pages/Menu";
 import Orders from "../pages/Orders";
@@ -11,8 +13,10 @@ import Login from "../pages/Login";
 import Registration from "../pages/Registration";
 import TermsCondition from "../pages/TermsCondition";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
-import Settings from "../pages/Settings";
+import ForgotPassword from "../pages/ForgotPassword";
 import UserProfile from "../pages/UserProfile";
+import Settings from "../pages/Settings";
+
 const Routers = () => {
   return (
     <Routes>
@@ -27,8 +31,9 @@ const Routers = () => {
       <Route path="/registration" element={<Registration />} />
       <Route path="/termsCondition" element={<TermsCondition />} />
       <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-      <Route path="/settings" element={<Settings />} />
+      <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/userProfile" element={<UserProfile />} />
+      <Route path="/settings" element={<Settings />} />
     </Routes>
   );
 };

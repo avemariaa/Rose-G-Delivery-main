@@ -38,7 +38,6 @@ const FeaturedProducts = () => {
       unsub();
     };
   }, []);
-  console.log(foodData);
 
   //------------------ Featured Products Slider ------------------//
   const ArrowLeft = (props) => (

@@ -63,31 +63,31 @@ const FoodCategorySlider = () => {
       <h6>What are you craving for today?</h6>
       <Slider {...settings}>
         <div className="foodCategory__item">
-          <Link to="/menu">
+          <Link to="/menu?category=Palabok">
             <img src={PalabokIcon} />
             <span>Palabok</span>
           </Link>
         </div>
         <div className="foodCategory__item">
-          <Link to="/menu">
+          <Link to="/menu?category=Rice Meals">
             <img src={RiceMealIcon} />
             <span>Rice Meals</span>
           </Link>
         </div>
         <div className="foodCategory__item">
-          <Link to="/menu">
+          <Link to="/menu?category=Barbecue">
             <img src={BarbecueIcon} />
             <span>Barbecue</span>
           </Link>
         </div>
         <div className="foodCategory__item">
-          <Link to="/menu">
+          <Link to="/menu?category=Drinks">
             <img src={DrinksIcon} />
             <span>Drinks</span>
           </Link>
         </div>
         <div className="foodCategory__item">
-          <Link to="/menu">
+          <Link to="/menu?category=Ice Creams">
             <img src={IceCreamIcon} />
             <span>Ice Cream</span>
           </Link>

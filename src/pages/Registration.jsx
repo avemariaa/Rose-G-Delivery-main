@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../style/Registration.css";
 import { Link } from "react-router-dom";
+import { Container, Row, Col } from "reactstrap";
 
 // Firebase
 import { auth, db } from "../firebase";
@@ -234,6 +235,7 @@ const Registration = () => {
           )}
 
           {/*------------------ Password Field ----------------- */}
+
           <label for="password">Password</label>
           <input
             value={password}
@@ -243,6 +245,7 @@ const Registration = () => {
             id="password"
             name="password"
           />
+
           {/*------------------ Password Validation Msg ----------------- */}
           {checkValidPassword ? (
             <label className="errorMsg">

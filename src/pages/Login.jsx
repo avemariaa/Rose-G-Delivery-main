@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from "react";
 import "../style/Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Firebase
-import { auth } from "../firebase";
+import { db, auth } from "../firebase";
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInAnonymously,
 } from "firebase/auth";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  where,
+  setDoc,
+} from "firebase/firestore";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +32,9 @@ import {
 const Login = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+
+  // Navigation
+  const navigate = useNavigate();
 
   //Redux
   const user = useSelector(selectUser);
@@ -38,7 +52,6 @@ const Login = () => {
           })
         );
         // Clear textfields once successfully logged in
-
         setEmail("");
         setPassword("");
       } else {
@@ -63,6 +76,7 @@ const Login = () => {
         // If email is verified, the user can logged in
         if (auth.currentUser.emailVerified) {
           alert("Logged in successfully");
+          navigate("/home");
         }
         // Verify email first to login
         else {
@@ -96,6 +110,66 @@ const Login = () => {
         setCustomErrorMsg();
       })
       .catch((error) => alert(error));
+  };
+
+  // Sign in With Google
+  const [displayName, setDisplayName] = useState(null);
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+
+  const handleGoogleLogin = () => {
+    const googleProvider = new GoogleAuthProvider();
+
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        const email = result.user.email;
+        const googleUid = result.user.uid;
+
+        const displayName = result.user.displayName;
+        setDisplayName(displayName);
+        // Split the display name into first and last name
+        const names = displayName.split(" ");
+        setFirstName(names[0]);
+        setLastName(names[names.length - 1]);
+
+        const userDataRef = collection(db, "UserData"); // getting the UserData collection
+        const queryData = query(userDataRef, where("email", "==", email));
+
+        getDocs(queryData)
+          .then((querySnapshot) => {
+            if (querySnapshot.empty) {
+              // user does not exist in database, so add a new document
+              const userRef = doc(userDataRef);
+              setDoc(userRef, {
+                // fullName: displayName,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                uid: googleUid,
+              });
+              alert("New user added to Firestore");
+            } else {
+              alert("User already exists in Firestore");
+            }
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
+  // Order as Guest Button Function
+  const handleOrderAsGuest = () => {
+    try {
+      signInAnonymously(auth);
+      alert("Logged in as guest");
+      navigate("/home");
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
@@ -132,9 +206,13 @@ const Login = () => {
             id="password"
             name="password"
           />
-          <label className="forgotPassTxt d-flex justify-content-end mt-2">
-            Forgot Password?
-          </label>
+
+          {/*------------------ Forgot Password ----------------- */}
+          <Link to="/forgotPassword">
+            <label className="forgotPassTxt d-flex justify-content-end mt-2">
+              Forgot Password?
+            </label>
+          </Link>
         </form>
 
         {/*------------------ Login - Redux ----------------- */}
@@ -161,7 +239,9 @@ const Login = () => {
         </Link>
 
         {/*------------------ Connect With Google Button ----------------- */}
-        <button className="connectGoogle__btn">Connect With Google</button>
+        <button className="connectGoogle__btn" onClick={handleGoogleLogin}>
+          Connect With Google
+        </button>
 
         {/*------------------ Terms & Condition - Privacy Policy ----------------- */}
         <label>
@@ -177,7 +257,9 @@ const Login = () => {
         <label className="d-flex justify-content-center">OR</label>
 
         {/*------------------ Order As Guest Button ----------------- */}
-        <button className="guest__btn">Order as Guest</button>
+        <button className="guest__btn" onClick={handleOrderAsGuest}>
+          Order as Guest
+        </button>
       </div>
     </div>
   );

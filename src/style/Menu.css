@@ -1,15 +1,18 @@
 /*By Category Products*/
-.categoryBtn__column {
-  display: flex;
+.categoriesBtn__slides {
+  justify-content: center;
   align-items: center;
-  justify-content: space-evenly;
-  padding: 50px;
+  width: 100%;
+  margin-bottom: 10px;
 }
+/* .slides__item {
+  width: 100px;
+} */
 .category__title {
   justify-content: center;
 }
 .category__btn {
-  width: 12%;
+  width: 80%;
   height: auto;
   align-items: center;
   justify-content: center;
@@ -22,7 +25,10 @@
   border: 2px solid #000000;
   display: flex;
 }
-
+.category__btn:active,
+.category__btn:focus {
+  background-color: #bcc998;
+}
 .menu__iceCream h5,
 .menu__drinks h5 {
   display: inline-block;

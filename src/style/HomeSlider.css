@@ -40,7 +40,10 @@
 }
 
 @media only screen and (max-width: 576px) {
-  .home__slides {
-    width: 100%;
+  .prev__btn,
+  .next__btn {
+    font-size: 1rem;
+    left: 1%;
+    right: 1%;
   }
 }

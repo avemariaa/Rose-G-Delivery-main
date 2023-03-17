@@ -15,8 +15,8 @@ const HomeSlider = () => {
   const settings = {
     autoplay: true,
     infinite: true,
-    speed: 2000,
-    autoplaySpeed: 2500,
+    speed: 2500,
+    autoplaySpeed: 3000,
     swipeToSlide: true,
     slideToShow: 1,
     slidesToScroll: 1,

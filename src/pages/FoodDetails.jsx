@@ -1,28 +1,21 @@
 import React, { useState, useEffect } from "react";
 import "../style/FoodDetails.css";
 import { Container, Row, Col } from "reactstrap";
-import FoodProductsData from "../assets/sample-data/FoodProduct";
-import { useParams } from "react-router-dom";
-import ChocoCup from "../assets/images/Food-Products/Ice-Cream/Choco_Cup.jpg";
-import MenuProductCard from "../components/UI/MenuProductCard";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { bagActions } from "../store/MyBag/bagSlice";
 
 // Connect Firebase
-import {
-  collection,
-  getDoc,
-  deleteDoc,
-  doc,
-  onSnapshot,
-} from "firebase/firestore";
-import { getStorage, ref, deleteObject } from "firebase/storage";
-import { db, storage } from "../firebase.js";
+import { getDoc, setDoc, arrayUnion, updateDoc, doc } from "firebase/firestore";
+import { db, auth } from "../firebase.js";
 
 const FoodDetails = () => {
   //------------------ Get Document ID of the selected food ------------------//
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
+
+  //------------------ Navigation ------------------//
+  const navigate = useNavigate();
 
   //------------------ Retrieve Food Data ------------------//
   const [foodData, setFoodData] = useState();
@@ -32,7 +25,7 @@ const FoodDetails = () => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log("Document data: ", docSnap.data());
+      // console.log("Document data: ", docSnap.data());
       setFoodData(docSnap.data());
     } else {
       // doc.data() will be undefined in this case
@@ -43,29 +36,77 @@ const FoodDetails = () => {
   useEffect(() => {
     getFoodData();
   }, []);
-  console.log(foodData);
 
-  // const product = FoodProductsData.find((product) => product.id === id);
-  // const { title, image01, price, category, desc } = product;
+  // Food Quantity
+  const [quantity, setQuantity] = useState(1);
 
-  /*Filtering data by their category*/
-  // const relatedProduct = FoodProductsData.filter(
-  //   (item) => item.category === category
-  // );
+  const handleIncrease = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrease = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
 
   /*Bag - Functions*/
   const dispatch = useDispatch();
+  const addToBag = () => {
+    dispatch(
+      bagActions.addItem({
+        foodId: id,
+        foodName: foodData?.foodName,
+        img: foodData?.img,
+        price: foodData?.price,
+        foodQty: quantity,
+      })
+    );
 
-  // const addToBag = () => {
-  //   dispatch(
-  //     bagActions.addItem({
-  //       id,
-  //       title,
-  //       image01,
-  //       price,
-  //     })
-  //   );
-  // };
+    const docRef = doc(db, "UserBag", auth.currentUser.uid);
+
+    const totalPrice = foodData?.price * quantity;
+
+    const data1 = {
+      foodId: id,
+      foodName: foodData?.foodName,
+      img: foodData?.img,
+      price: foodData?.price,
+      foodQty: quantity,
+      totalPrice: totalPrice,
+    };
+
+    // Check if document exists before updating it
+    getDoc(docRef)
+      .then((doc) => {
+        if (doc.exists()) {
+          updateDoc(docRef, {
+            bag: arrayUnion(data1),
+          })
+            .then(() => {
+              alert("Item added to bag in Firestore.");
+              navigate("/menu");
+            })
+            .catch((error) => {
+              alert(`Error adding item to bag in Firestore: ${error}`);
+            });
+        } else {
+          setDoc(docRef, {
+            bag: [data1],
+          })
+            .then(() => {
+              alert("Item added to bag in Firestore.");
+              navigate("/menu");
+            })
+            .catch((error) => {
+              alert(`Error adding item to bag in Firestore: ${error}`);
+            });
+        }
+      })
+      .catch((error) => {
+        alert(`Error checking if document exists in Firestore: ${error}`);
+      });
+  };
 
   return (
     <section>
@@ -92,16 +133,34 @@ const FoodDetails = () => {
                 <span>{foodData?.description}</span>
               </div>
             </div>
+
+            <Row>
+              <Col>
+                <span>
+                  Total Price: ₱&nbsp;
+                  {parseFloat(foodData?.price * quantity).toFixed(2)}
+                </span>
+              </Col>
+              <Col>
+                <div className="foodProduct__qty">
+                  <button onClick={handleDecrease}>-</button>
+                  <span>{quantity}</span>
+                  <button onClick={handleIncrease}>+</button>
+                </div>
+              </Col>
+            </Row>
           </Col>
 
-          {/* <Col lg="6" md="6">
+          {/* Add to bag function */}
+
+          <Col lg="6" md="6">
             <div className="customize__order">
               Customize your order:
               <button className="foodProduct__addBtn" onClick={addToBag}>
                 Add to Bag
               </button>
             </div>
-          </Col> */}
+          </Col>
         </Row>
 
         {/* <Row>

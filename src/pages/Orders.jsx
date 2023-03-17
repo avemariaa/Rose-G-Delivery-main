@@ -1,10 +1,10 @@
 import React from "react";
-
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Row, Col } from "reactstrap";
 import "../style/OrderPage.css";
 import { bagActions } from "../store/MyBag/bagSlice";
 import { Link } from "react-router-dom";
+
 const Orders = () => {
   const bagItems = useSelector((state) => state.bag.bagItems);
   const subTotalAmount = useSelector((state) => state.bag.subTotalAmount);

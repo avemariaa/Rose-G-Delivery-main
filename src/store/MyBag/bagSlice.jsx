@@ -11,87 +11,99 @@ const bagSlice = createSlice({
   initialState: initialState,
 
   reducers: {
+    //------------------ Add Item ------------------//
     addItem(state, action) {
       const newItem = action.payload;
       const existingItem = state.bagItems.find(
-        (item) => item.id === newItem.id
+        (item) => item.foodId === newItem.foodId
       );
       state.totalQuantity++;
 
       if (!existingItem) {
         state.bagItems.push({
-          id: newItem.id,
-          title: newItem.title,
-          image01: newItem.image01,
+          foodId: newItem.foodId,
+          foodName: newItem.foodName,
+          img: newItem.img,
           price: newItem.price,
-          quantity: 1,
-          totalPrice: newItem.price,
+          foodQty: newItem.foodQty,
+          totalPrice: newItem.totalPrice,
         });
       } else {
-        existingItem.quantity++;
+        existingItem.foodQty++;
         existingItem.totalPrice =
           Number(existingItem.totalPrice) + Number(newItem.price);
+        console.log("increase");
       }
 
       state.subTotalAmount = state.bagItems.reduce(
         (subTotal, item) =>
-          subTotal + Number(item.price) * Number(item.quantity),
+          subTotal + Number(item.price) * Number(item.foodQty),
         0
       );
 
-      state.totalAmount = state.bagItems.reduce(
-        (total, item) => total + Number(item.price) * Number(item.quantity),
-        +50,
-        0
-      );
+      // state.totalAmount = state.bagItems.reduce(
+      //   (total, item) => total + Number(item.price) * Number(item.foodQty),
+      //   +50,
+      //   0
+      // );
+      state.totalAmount = state.subTotalAmount + 50;
     },
 
-    //===== remove item =====
+    //------------------ Remove Item ------------------//
     removeItem(state, action) {
-      const id = action.payload;
-      const existingItem = state.bagItems.find((item) => item.id === id);
+      const itemToRemove = action.payload;
+      const existingItem = state.bagItems.find(
+        (item) => item.foodId === itemToRemove
+      );
       state.totalQuantity--;
 
-      if (existingItem.quantity === 1) {
-        state.bagItems = state.bagItems.filter((item) => item.id !== id);
-      } else {
-        existingItem.quantity--;
-        existingItem.totalPrice =
-          Number(existingItem.totalPrice) - Number(existingItem.price);
+      if (existingItem) {
+        if (existingItem.foodQty === 1) {
+          state.bagItems = state.bagItems.filter(
+            (item) => item.foodId !== itemToRemove
+          );
+          console.log("decrease");
+        } else {
+          existingItem.foodQty--;
+          existingItem.totalPrice =
+            Number(existingItem.totalPrice) - Number(existingItem.price);
+          console.log("decrease");
+        }
       }
 
       state.subTotalAmount = state.bagItems.reduce(
         (subTotal, item) =>
-          subTotal + Number(item.price) * Number(item.quantity),
+          subTotal + Number(item.price) * Number(item.foodQty),
         0
       );
-
       state.totalAmount = state.bagItems.reduce(
-        (total, item) => total + Number(item.price) * Number(item.quantity),
-        +50,
-        //initial value should be 0
+        (total, item) => total + Number(item.price) * Number(item.foodQty),
         0
       );
     },
 
-    //===== delete item =====
+    //------------------ Delete Item ------------------//
     deleteItem(state, action) {
-      const id = action.payload;
-      const existingItem = state.bagItems.find((item) => item.id === id);
+      const itemToDelete = action.payload;
+      const existingItem = state.bagItems.find(
+        (item) => item.foodId === itemToDelete
+      );
 
       if (existingItem) {
-        state.bagItems = state.bagItems.filter((item) => item.id !== id);
-        state.totalQuantity = state.totalQuantity - existingItem.quantity;
+        state.bagItems = state.bagItems.filter(
+          (item) => item.foodId !== itemToDelete
+        );
+        state.totalQuantity = state.totalQuantity - existingItem.foodQty;
       }
 
       state.subTotalAmount = state.bagItems.reduce(
         (subTotal, item) =>
-          subTotal + Number(item.price) * Number(item.quantity),
+          subTotal + Number(item.price) * Number(item.foodQty),
         0
       );
 
       state.totalAmount = state.bagItems.reduce(
-        (total, item) => total + Number(item.price) * Number(item.quantity),
+        (total, item) => total + Number(item.price) * Number(item.foodQty),
         +50,
         //initial value should be 0
         0
