@@ -96,7 +96,7 @@ const FeaturedProducts = () => {
       <Slider {...settings}>
         {foodData.map((item) => (
           <div className="ftProduct__item">
-            <Col lg="3" key={item.id}>
+            <Col lg="3" key={item.foodId}>
               <ProductCard item={item} />
             </Col>
           </div>

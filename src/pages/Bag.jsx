@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ListGroup } from "reactstrap";
+import "../style/Bag.css";
+
 import BagItem from "../components/UI/Bag/BagItem";
 import { Link } from "react-router-dom";
-import "../style/Bag.css";
+
+// Redux
 import { useDispatch, useSelector } from "react-redux";
 import { bagUiActions } from "../store/MyBag/bagUiSlice";
+import { bagActions } from "../store/MyBag/bagSlice";
+
 const Bag = () => {
   const dispatch = useDispatch();
   const toggleBag = () => {
@@ -13,6 +18,14 @@ const Bag = () => {
   const bagProducts = useSelector((state) => state.bag.bagItems);
   const subTotalAmount = useSelector((state) => state.bag.subTotalAmount);
   const totalAmount = useSelector((state) => state.bag.totalAmount);
+
+  // Load bag data from browser storage when the component mounts
+  // useEffect(() => {
+  //   const bagData = localStorage.getItem("bagData");
+  //   if (bagData) {
+  //     dispatch(bagActions.loadBagData(JSON.parse(bagData)));
+  //   }
+  // }, [dispatch]);
 
   return (
     <div className="bag__container">
@@ -24,18 +37,17 @@ const Bag = () => {
         </div>
 
         <div className="bag__item-list">
-          {bagProducts.length === 0 ? (
+          {bagProducts && bagProducts.length === 0 ? (
             <h6 className="text-center mt-5">No item added to the cart</h6>
           ) : (
-            bagProducts.map((item, index) => (
-              <BagItem item={item} key={index} />
-            ))
+            bagProducts.map((item) => <BagItem item={item} key={item.foodId} />)
           )}
         </div>
 
         <div className="bag__bottom">
           <label className="d-flex align-items-center justify-content-between">
-            Subtotal:<span> ₱ {parseFloat(subTotalAmount).toFixed(2)}</span>
+            Subtotal:
+            <span>₱ {parseFloat(subTotalAmount).toFixed(2)}</span>
           </label>
           <label className="d-flex align-items-center justify-content-between">
             Delivery Fee:<span> ₱ 50.00</span>

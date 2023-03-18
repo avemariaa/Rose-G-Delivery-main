@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "../style/Login.css";
+import { Row } from "reactstrap";
+
+// Icons or  Images
+import registerIcon from "../assets/images/registered.png";
+import peopleIcon from "../assets/images/user.png";
+import googleIcon from "../assets/images/googleLogo.png";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
+// Navigation
 import { Link, useNavigate } from "react-router-dom";
 
 // Firebase
@@ -7,7 +17,6 @@ import { db, auth } from "../firebase";
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signOut,
   GoogleAuthProvider,
   signInWithPopup,
   signInAnonymously,
@@ -32,6 +41,10 @@ import {
 const Login = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [emailFocus, setEmailFocus] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Navigation
   const navigate = useNavigate();
@@ -70,13 +83,17 @@ const Login = () => {
   // Sign Up Button Function
   const handleSignIn = (e) => {
     e.preventDefault();
-
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         // If email is verified, the user can logged in
         if (auth.currentUser.emailVerified) {
           alert("Logged in successfully");
           navigate("/home");
+          // Prevent user from going back to login page
+          window.history.pushState(null, "", "/home");
+          window.addEventListener("popstate", function (event) {
+            window.history.pushState(null, "", "/home");
+          });
         }
         // Verify email first to login
         else {
@@ -101,15 +118,11 @@ const Login = () => {
         }
       });
   };
-
-  // Sign Out Button Function
-  const handleSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        alert("Logged out successfully");
-        setCustomErrorMsg();
-      })
-      .catch((error) => alert(error));
+  // When "Enter" pressed, handleSignIn will be working
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSignIn(e);
+    }
   };
 
   // Sign in With Google
@@ -119,6 +132,9 @@ const Login = () => {
 
   const handleGoogleLogin = () => {
     const googleProvider = new GoogleAuthProvider();
+
+    // this custom parameter will let the user to select the google account they want to use for signing in
+    googleProvider.setCustomParameters({ prompt: "select_account" });
 
     signInWithPopup(auth, googleProvider)
       .then((result) => {
@@ -141,41 +157,44 @@ const Login = () => {
               // user does not exist in database, so add a new document
               const userRef = doc(userDataRef);
               setDoc(userRef, {
-                // fullName: displayName,
+                fullName: displayName,
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
                 uid: googleUid,
               });
-              alert("New user added to Firestore");
+              alert("New user added to Firestore, you've login successfully");
+              navigate("/home");
             } else {
-              alert("User already exists in Firestore");
+              alert("Succesfully sign in using google");
+              navigate("/home");
             }
           })
           .catch((error) => {
-            alert(error);
+            console.log(error);
           });
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
   // Order as Guest Button Function
   const handleOrderAsGuest = () => {
-    try {
-      signInAnonymously(auth);
-      alert("Logged in as guest");
-      navigate("/home");
-    } catch (error) {
-      alert(error);
-    }
+    signInAnonymously(auth)
+      .then(() => {
+        alert("Signed in as guest");
+        navigate("/home");
+      })
+      .catch((error) => {
+        console.error("Error signing in as guest: ", error);
+      });
   };
 
   return (
     <div className="login__body">
       <div className="authForm__container">
-        <h3 className="mb-5">Sign in to your account</h3>
+        <h5 className="mb-4">Sign in to your account</h5>
 
         {/*------------------ Login Content ----------------- */}
 
@@ -186,78 +205,114 @@ const Login = () => {
 
         <form className="login__form" onSubmit={handleSignIn}>
           {/*------------------ Email Field ----------------- */}
-          <label for="email">Email</label>
-          <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
-            placeholder="youremail@gmail.com"
-            id="email"
-            name="email"
-          />
+          <div className="input__field">
+            <label for="email">Email</label>
+            <div className="input__container">
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                placeholder="youremail@gmail.com"
+                id="email"
+                name="email"
+                onFocus={() => {
+                  setEmailFocus(true);
+                  setShowPassword(false);
+                  setPasswordFocus(false);
+                }}
+                onKeyDown={handleKeyPress}
+              />
+            </div>
+          </div>
 
           {/*------------------ Password Field ----------------- */}
-          <label for="password">Password</label>
-          <input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            placeholder="**********"
-            id="password"
-            name="password"
-          />
-
-          {/*------------------ Forgot Password ----------------- */}
-          <Link to="/forgotPassword">
-            <label className="forgotPassTxt d-flex justify-content-end mt-2">
-              Forgot Password?
-            </label>
-          </Link>
+          <div className="input__field">
+            <label for="password">Password</label>
+            <div className="input__container">
+              <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type={showPassword ? "text" : "password"}
+                placeholder="**********"
+                id="password"
+                name="password"
+                onFocus={() => {
+                  setEmailFocus(false);
+                  setPasswordFocus(true);
+                }}
+                onKeyDown={handleKeyPress}
+              />
+              {/* Toggle On and Off Eye Icon */}
+              {showPassword ? (
+                <VisibilityOffIcon
+                  className="visibility-icon"
+                  onClick={() => {
+                    setShowPassword(!showPassword);
+                  }}
+                />
+              ) : (
+                <VisibilityIcon
+                  className="visibility-icon"
+                  onClick={() => {
+                    setShowPassword(!showPassword);
+                  }}
+                />
+              )}
+            </div>
+          </div>
         </form>
 
-        {/*------------------ Login - Redux ----------------- */}
-        {user ? (
-          // If current user is logged in, it display the email and last sign in
-          <>
-            <p>Email: {user.email}</p>
-            <p>Last Sign In: {user.lastSignIn}</p>
-            <p>Email Verified: {user.emailVerified}</p>
-            <button onClick={handleSignOut}>Sign Out</button>
-          </>
-        ) : (
-          // If the current user is not yet logged in or logout, the sign in button should appear
-          <button onClick={handleSignIn}>Sign In</button>
-        )}
+        {/*------------------ Forgot Password ----------------- */}
+        <Link to="/forgotPassword">
+          <label className="forgotPassTxt d-flex justify-content-end mt-2 mb-3">
+            Forgot Password?
+          </label>
+        </Link>
 
-        <label className="d-flex justify-content-center mt-2">
+        {/*------------------ Sign In Button ----------------- */}
+        <button className="signIn__btn" onClick={handleSignIn}>
+          Sign In
+        </button>
+
+        {/*------------------ Dont' have an account? ----------------- */}
+        <label className="dontHave__txt d-flex justify-content-center mt-3">
           Don't have an account?
         </label>
 
         {/*------------------ Create An Account Button ----------------- */}
         <Link to="/registration">
-          <button className="createAcc__btn">Create An Account</button>
+          <button className="createAcc__btn">
+            <img className="btn__icon" src={registerIcon} alt="btn-icon" />
+            Create An Account
+          </button>
         </Link>
 
         {/*------------------ Connect With Google Button ----------------- */}
+
         <button className="connectGoogle__btn" onClick={handleGoogleLogin}>
+          <img className="btn__icon" src={googleIcon} alt="btn-icon" />
           Connect With Google
         </button>
 
         {/*------------------ Terms & Condition - Privacy Policy ----------------- */}
-        <label>
-          By continuing, you agree to our updated{" "}
-          <Link to="/termsCondition">
-            <span className="termsConditionTxt">Terms & Conditions</span>
-          </Link>
-          &nbsp;and&nbsp;
-          <Link to="/privacyPolicy">
-            <span className="privacyPolicyTxt">Privacy Policy.</span>
-          </Link>
-        </label>
-        <label className="d-flex justify-content-center">OR</label>
+        <div className="youAgree__txt">
+          <label>
+            By continuing, you agree to our updated&nbsp;
+            <Link to="/termsCondition">
+              <span className="termsConditionTxt">Terms & Conditions</span>
+            </Link>
+            &nbsp;and&nbsp;
+            <Link to="/privacyPolicy">
+              <span className="privacyPolicyTxt">Privacy Policy.</span>
+            </Link>
+          </label>
+        </div>
+
+        <label className="or__txt d-flex justify-content-center mb-2">OR</label>
 
         {/*------------------ Order As Guest Button ----------------- */}
         <button className="guest__btn" onClick={handleOrderAsGuest}>
+          <img className="btn__icon" src={peopleIcon} alt="btn-icon" />
           Order as Guest
         </button>
       </div>

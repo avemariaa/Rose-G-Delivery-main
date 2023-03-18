@@ -1,6 +1,9 @@
 import React from "react";
 import "../../style/ProductCard.css";
 
+// Navigation
+import { Link } from "react-router-dom";
+
 const ProductCard = (props) => {
   const { id, foodName, img, price } = props.item;
   return (
@@ -15,7 +18,9 @@ const ProductCard = (props) => {
           <span className="product__price">
             <span>₱{parseFloat(price).toFixed(2)}</span>
           </span>
-          <button className="order__btn">Order</button>
+          <Link to={`/foodDetails/${id}`}>
+            <button className="order__btn">Order</button>
+          </Link>
         </div>
       </div>
     </div>

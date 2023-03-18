@@ -44,23 +44,29 @@ const ForgotPassword = () => {
   return (
     <div className="forgotPassword__body">
       <div className="forgotPassword__container">
-        <h3>Forgot Password?</h3>
+        <h5 className="mb-5">Forgot Password?</h5>
         <img className="lock__img" src={ForgotPasswordImg} alt="lock-img" />
 
-        <label>
-          Enter the email associated with your account and we'll send an email
-          with instructions to reset your password
-        </label>
+        <div className="enterEmail__msg">
+          <label>
+            Enter the email associated with your account and we'll send an email
+            with instructions to reset your password
+          </label>
+        </div>
 
-        <label for="email">Email</label>
-        <input
-          value={email}
-          onChange={(e) => handleCheckEmail(e.target.value)}
-          type="email"
-          placeholder="youremail@gmail.com"
-          id="email"
-          name="email"
-        />
+        <div className="inputEmail__field">
+          <label for="email">Email</label>
+          <div className="inputEmail__container">
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              placeholder="youremail@gmail.com"
+              id="email"
+              name="email"
+            />
+          </div>
+        </div>
 
         {/*------------------ Email Validation Msg ----------------- */}
         {checkValidEmail ? (
@@ -70,7 +76,9 @@ const ForgotPassword = () => {
         )}
 
         {/* -------------------- Submit Button -------------------- */}
-        <button onClick={handleSubmit}>Submit</button>
+        <button className="submit__btn" onClick={handleSubmit}>
+          Submit
+        </button>
 
         {/* -------------------- Success Message -------------------- */}
         {successMsg !== "" && <label>{successMsg}</label>}

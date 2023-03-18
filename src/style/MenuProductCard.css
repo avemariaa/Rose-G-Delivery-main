@@ -28,6 +28,9 @@
 .menu__productContent {
   text-align: center;
 }
+.menu__productContent h6 {
+  font-weight: 600;
+}
 .menu__productContent a {
   text-decoration: none;
   color: #000000;

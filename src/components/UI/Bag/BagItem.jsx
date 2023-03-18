@@ -24,6 +24,7 @@ const BagItem = ({ item }) => {
         return {
           ...item,
           foodQty: item.foodQty + 1,
+          totalPrice: Number(item.totalPrice) + Number(item.price),
         };
       } else {
         return item;
@@ -32,6 +33,8 @@ const BagItem = ({ item }) => {
     updateDoc(userBagRef, {
       bag: updatedBag,
     });
+
+    // responsible for the data to reflect on the webiste
     dispatch(
       bagActions.addItem({
         foodId: foodId,
@@ -43,6 +46,7 @@ const BagItem = ({ item }) => {
       })
     );
   };
+
   //------------------ Decrement Item Function ------------------//
   const decreaseItem = async () => {
     const userBagRef = doc(db, "UserBag", auth.currentUser.uid);
@@ -55,6 +59,7 @@ const BagItem = ({ item }) => {
           return {
             ...item,
             foodQty: item.foodQty - 1,
+            totalPrice: Number(item.totalPrice) - Number(item.price),
           };
         } else {
           return item;
@@ -70,16 +75,15 @@ const BagItem = ({ item }) => {
       deleteDoc(userBagRef);
     }
 
-    const updatedItem = updatedBag.find((item) => item.foodId === foodId);
     dispatch(
-      bagActions.removeItem({
-        foodId,
-        foodName,
-        img,
-        price,
-        foodQty: foodQty - 1,
-        totalPrice: updatedItem.totalPrice - price,
-      })
+      bagActions.removeItem(
+        foodId
+        // foodName,
+        // img,
+        // price,
+        // foodQty: foodQty - 1,
+        // totalPrice: updatedItem.totalPrice - price,
+      )
     );
   };
 
@@ -97,21 +101,21 @@ const BagItem = ({ item }) => {
     });
 
     dispatch(
-      bagActions.removeItem({
-        foodId,
-        foodName,
-        img,
-        price,
-        foodQty,
-        totalPrice,
-      })
+      bagActions.deleteItem(
+        foodId
+        // foodName,
+        // img,
+        // price,
+        // foodQty,
+        // totalPrice,
+      )
     );
   };
 
   return (
     <ListGroupItem className="border-0 bag__item">
       <div className="bag__item-info d-flex gap-2">
-        <img src={img} alt="product-image" />
+        <img src={img} alt="product-img" />
 
         <div className="bag__product-info w-100 d-flex align-items-center gap-4 justify-content-between">
           <div>

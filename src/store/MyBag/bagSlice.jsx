@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   bagItems: [],
-  totalQuantity: 0,
+  totalQuantity: 0, // use for the bag badge, the number of each food item in the bag
+  subTotalAmount: 0,
   totalAmount: 0,
 };
 
@@ -17,7 +18,6 @@ const bagSlice = createSlice({
       const existingItem = state.bagItems.find(
         (item) => item.foodId === newItem.foodId
       );
-      state.totalQuantity++;
 
       if (!existingItem) {
         state.bagItems.push({
@@ -28,11 +28,12 @@ const bagSlice = createSlice({
           foodQty: newItem.foodQty,
           totalPrice: newItem.totalPrice,
         });
+        // if the item added is not existing, +1 on the bag badge
+        state.totalQuantity++;
       } else {
         existingItem.foodQty++;
         existingItem.totalPrice =
           Number(existingItem.totalPrice) + Number(newItem.price);
-        console.log("increase");
       }
 
       state.subTotalAmount = state.bagItems.reduce(
@@ -41,12 +42,11 @@ const bagSlice = createSlice({
         0
       );
 
-      // state.totalAmount = state.bagItems.reduce(
-      //   (total, item) => total + Number(item.price) * Number(item.foodQty),
-      //   +50,
-      //   0
-      // );
-      state.totalAmount = state.subTotalAmount + 50;
+      state.totalAmount = state.bagItems.reduce(
+        (total, item) => total + Number(item.price) * Number(item.foodQty),
+        +50,
+        0
+      );
     },
 
     //------------------ Remove Item ------------------//
@@ -55,19 +55,18 @@ const bagSlice = createSlice({
       const existingItem = state.bagItems.find(
         (item) => item.foodId === itemToRemove
       );
-      state.totalQuantity--;
 
       if (existingItem) {
         if (existingItem.foodQty === 1) {
           state.bagItems = state.bagItems.filter(
             (item) => item.foodId !== itemToRemove
           );
-          console.log("decrease");
+          // if the  existing item is remove or reaches the foodQty to 0, then -1 on the bag badge
+          state.totalQuantity--;
         } else {
           existingItem.foodQty--;
           existingItem.totalPrice =
             Number(existingItem.totalPrice) - Number(existingItem.price);
-          console.log("decrease");
         }
       }
 
@@ -93,7 +92,8 @@ const bagSlice = createSlice({
         state.bagItems = state.bagItems.filter(
           (item) => item.foodId !== itemToDelete
         );
-        state.totalQuantity = state.totalQuantity - existingItem.foodQty;
+        // if the  existing item is deleted, then -1 on the bag badge
+        state.totalQuantity--;
       }
 
       state.subTotalAmount = state.bagItems.reduce(
@@ -108,6 +108,14 @@ const bagSlice = createSlice({
         //initial value should be 0
         0
       );
+    },
+
+    loadBagData(state, action) {
+      if (Array.isArray(action.payload)) {
+        state.bagItems = action.payload;
+      } else {
+        state.bagItems = [];
+      }
     },
   },
 });

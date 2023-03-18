@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import "../style/Registration.css";
-import { Link } from "react-router-dom";
-import { Container, Row, Col } from "reactstrap";
+
+// Icons or  Images
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
+// Navigation
+import { Link, useNavigate } from "react-router-dom";
 
 // Firebase
 import { auth, db } from "../firebase";
@@ -12,9 +17,6 @@ import {
 } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 
-// Navigate
-import { useNavigate } from "react-router-dom";
-
 const Registration = () => {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
@@ -22,6 +24,14 @@ const Registration = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [fNameFocus, setFNameFocus] = useState(false);
+  const [lNameFocus, setLNameFocus] = useState(false);
+  const [emailFocus, setEmailFocus] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
+  const [cPasswordFocus, setCPasswordFocus] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showCPassword, setShowCPassword] = useState(false);
 
   const [customErrorMsg, setCustomErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState(null);
@@ -174,7 +184,7 @@ const Registration = () => {
   return (
     <div className="registration__body">
       <div className="authForm__container">
-        <h3 className="mb-5">Create An Account!</h3>
+        <h5 className="mb-3">Create An Account!</h5>
         {/*------------------ Registration Content ----------------- */}
 
         {/*------------------ Custom Error Msg for Firebase Error ----------------- */}
@@ -184,102 +194,215 @@ const Registration = () => {
 
         <form className="registration__form">
           {/*------------------ First Name Field ----------------- */}
-          <label for="fname">First Name</label>
-          <input
-            value={firstName}
-            onChange={(e) => handleFirstName(e.target.value)}
-            type="text"
-            placeholder="First Name"
-            id="firstName"
-            name="firstName"
-          />
-          {/*------------------ First Name Validation Msg ----------------- */}
-          {checkFirstName ? (
-            <label className="errorMsg">It should only contain alphabet</label>
-          ) : (
-            ""
-          )}
+          <div className="input__field">
+            <label for="fname">First Name</label>
+            <div className="input__container">
+              <input
+                value={firstName}
+                onChange={(e) => handleFirstName(e.target.value)}
+                onFocus={() => {
+                  setFNameFocus(true);
+                  setLNameFocus(false);
+                  setEmailFocus(false);
+                  setPasswordFocus(false);
+                  setCPasswordFocus(false);
+                  setShowPassword(false);
+                  setShowCPassword(false);
+                }}
+                type="text"
+                placeholder="First Name"
+                id="firstName"
+                name="firstName"
+              />
+            </div>
+            {/*------------------ First Name Validation Msg ----------------- */}
+            {checkFirstName ? (
+              <label className="registration__errorMsg">
+                It should only contain alphabet
+              </label>
+            ) : (
+              ""
+            )}
+          </div>
 
           {/*------------------ Last Name Field ----------------- */}
-          <label for="lastName">Last Name</label>
-          <input
-            value={lastName}
-            onChange={(e) => handleLastName(e.target.value)}
-            type="text"
-            placeholder="Last Name"
-            id="lastName"
-            name="lastName"
-          />
-          {/*------------------ Last Name Validation Msg ----------------- */}
-          {checkLastName ? (
-            <label className="errorMsg">It should only contain alphabet</label>
-          ) : (
-            ""
-          )}
+          <div className="input__field">
+            <label for="lastName">Last Name</label>
+            <div className="input__container">
+              <input
+                value={lastName}
+                onChange={(e) => handleLastName(e.target.value)}
+                onFocus={() => {
+                  setFNameFocus(false);
+                  setLNameFocus(true);
+                  setEmailFocus(false);
+                  setPasswordFocus(false);
+                  setCPasswordFocus(false);
+                  setShowPassword(false);
+                  setShowCPassword(false);
+                }}
+                type="text"
+                placeholder="Last Name"
+                id="lastName"
+                name="lastName"
+              />
+            </div>
+            {/*------------------ Last Name Validation Msg ----------------- */}
+            {checkLastName ? (
+              <label className="registration__errorMsg">
+                It should only contain alphabet
+              </label>
+            ) : (
+              ""
+            )}
+          </div>
 
           {/*------------------ Email Field ----------------- */}
-          <label for="email">Email</label>
-          <input
-            value={email}
-            onChange={(e) => handleCheckEmail(e.target.value)}
-            type="email"
-            placeholder="youremail@gmail.com"
-            id="email"
-            name="email"
-          />
-          {/*------------------ Email Validation Msg ----------------- */}
-          {checkValidEmail ? (
-            <label className="errorMsg">Invalid email format</label>
-          ) : (
-            ""
-          )}
+          <div className="input__field">
+            <label for="email">Email</label>
+            <div className="input__container">
+              <input
+                value={email}
+                onChange={(e) => handleCheckEmail(e.target.value)}
+                onFocus={() => {
+                  setFNameFocus(false);
+                  setLNameFocus(false);
+                  setEmailFocus(true);
+                  setPasswordFocus(false);
+                  setCPasswordFocus(false);
+                  setShowPassword(false);
+                  setShowCPassword(false);
+                }}
+                type="email"
+                placeholder="youremail@gmail.com"
+                id="email"
+                name="email"
+              />
+            </div>
+            {/*------------------ Email Validation Msg ----------------- */}
+            {checkValidEmail ? (
+              <label className="registration__errorMsg">
+                Invalid email format
+              </label>
+            ) : (
+              ""
+            )}
+          </div>
 
           {/*------------------ Password Field ----------------- */}
-
-          <label for="password">Password</label>
-          <input
-            value={password}
-            onChange={(e) => handleCheckPassword(e.target.value)}
-            type="password"
-            placeholder="**********"
-            id="password"
-            name="password"
-          />
-
-          {/*------------------ Password Validation Msg ----------------- */}
-          {checkValidPassword ? (
-            <label className="errorMsg">
-              At least 8 characters, 1 numeric character, 1 lowercase letter, 1
-              uppercase letter, 1 special character
-            </label>
-          ) : (
-            ""
-          )}
+          <div className="input__field">
+            <label for="password">Password</label>
+            <div className="input__container">
+              <input
+                value={password}
+                onChange={(e) => handleCheckPassword(e.target.value)}
+                onFocus={() => {
+                  setFNameFocus(false);
+                  setLNameFocus(false);
+                  setEmailFocus(false);
+                  setPasswordFocus(true);
+                  setCPasswordFocus(false);
+                  setShowPassword(false);
+                  setShowCPassword(false);
+                }}
+                type={showPassword ? "text" : "password"}
+                placeholder="**********"
+                id="password"
+                name="password"
+              />
+              {/* Toggle On and Off Eye Icon */}
+              {showPassword ? (
+                <VisibilityOffIcon
+                  className="visibility-icon"
+                  onClick={() => {
+                    setShowPassword(!showPassword);
+                  }}
+                />
+              ) : (
+                <VisibilityIcon
+                  className="visibility-icon"
+                  onClick={() => {
+                    setShowPassword(!showPassword);
+                  }}
+                />
+              )}
+            </div>
+            {/*------------------ Password Validation Msg ----------------- */}
+            {checkValidPassword ? (
+              <label className="registration__errorMsg">
+                At least 8 characters, 1 numeric character, 1 lowercase letter,
+                1 uppercase letter, 1 special character
+              </label>
+            ) : (
+              ""
+            )}
+          </div>
 
           {/*------------------ Confirm Password Field ----------------- */}
-          <label for="password">Confirm Password</label>
-          <input
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            type="password"
-            placeholder="**********"
-            id="confirmPassword"
-            name="confirmPassword"
-          />
-          <label className="d-flex justify-content-center">
-            By registering, you confirm that you accept our&nbsp;
-            <Link to="/termsCondition">
-              <span className="termsConditionTxt">Terms & Conditions</span>
-            </Link>
-            &nbsp;and&nbsp;
-            <Link to="/privacyPolicy">
-              <span className="privacyPolicyTxt">Privacy Policy.</span>
-            </Link>
-          </label>
-          <button className="mt-3" type="submit" onClick={handleSignUp}>
+          <div className="input__field">
+            <label for="password">Confirm Password</label>
+            <div className="input__container">
+              <input
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                onFocus={() => {
+                  setFNameFocus(false);
+                  setLNameFocus(false);
+                  setEmailFocus(false);
+                  setPasswordFocus(false);
+                  setCPasswordFocus(true);
+                  setShowPassword(false);
+                  setShowCPassword(false);
+                }}
+                type={showCPassword ? "text" : "password"}
+                placeholder="**********"
+                id="confirmPassword"
+                name="confirmPassword"
+              />
+              {/* Toggle On and Off Eye Icon */}
+              {showCPassword ? (
+                <VisibilityOffIcon
+                  className="visibility-icon"
+                  onClick={() => {
+                    setShowCPassword(!showCPassword);
+                  }}
+                />
+              ) : (
+                <VisibilityIcon
+                  className="visibility-icon"
+                  onClick={() => {
+                    setShowCPassword(!showCPassword);
+                  }}
+                />
+              )}
+            </div>
+          </div>
+
+          {/*------------------ Terms & Condition - Privacy Policy ----------------- */}
+          <div className="youAgree__txt">
+            <label className="d-flex justify-content-center mt-2">
+              By registering, you confirm that you accept our&nbsp;
+              <Link to="/termsCondition">
+                <span className="termsConditionTxt">Terms & Conditions</span>
+              </Link>
+              &nbsp;and&nbsp;
+              <Link to="/privacyPolicy">
+                <span className="privacyPolicyTxt">Privacy Policy.</span>
+              </Link>
+            </label>
+          </div>
+
+          {/*------------------ Sign Up Button ----------------- */}
+          <button
+            className="signUp__btn mt-3"
+            type="submit"
+            onClick={handleSignUp}
+          >
             Sign Up
           </button>
-          <label className="d-flex justify-content-center">
+
+          {/*------------------ Already have an account? ----------------- */}
+          <label className="d-flex justify-content-center mt-2">
             Already have an account?&nbsp;
             <Link to="/login">
               <span className="signInTxt">Sign In</span>
