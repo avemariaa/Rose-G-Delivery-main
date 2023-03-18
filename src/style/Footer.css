@@ -1,0 +1,115 @@
+.footer {
+  padding-top: 50px;
+  padding-bottom: 10px;
+  background: #e8b0af;
+  text-decoration: none;
+}
+.footer__logo img {
+  max-width: 100%;
+  width: 350px;
+}
+.footer__logo p {
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 28px;
+}
+.footer__title,
+.footer__title-contact {
+  font-size: 1.1rem;
+  color: #000000;
+  font-weight: 600;
+}
+.footer__menu-item,
+.delivery__time-item {
+  background: transparent !important;
+}
+.footer__menu-item,
+.delivery__time-item span {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #000000;
+}
+
+.footer__menu-item span {
+  display: inline-block;
+  position: relative;
+  color: #000000;
+}
+.footer__menu-item span:hover {
+  color: #000000;
+}
+.footer__menu-item span:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #bcc998;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+.footer__menu-item span:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.delivery__time-item p {
+  color: #000000;
+}
+.active__menu {
+  color: #686d5e !important;
+}
+.contact__us-item {
+  background: transparent !important;
+}
+.contact__us-item a {
+  text-decoration: none;
+  color: unset;
+}
+.contact__us-item i {
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin-right: 15px;
+}
+.contact__us-item span {
+  font-weight: 500;
+  font-size: 1rem;
+  color: #000000;
+  vertical-align: 8px;
+}
+.contact__us-item a:hover {
+  color: #686d5e;
+}
+
+.conditions__policy {
+  font-size: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+.conditions__policy a {
+  color: #000000;
+}
+.conditions__policy a:hover {
+  color: #686d5e;
+}
+
+.copyright__text p {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  text-align: center;
+}
+.copyright__text i {
+  vertical-align: -2px;
+}
+
+@media only screen and (max-width: 768px) {
+  .footer__title-contact {
+    margin-top: 30px;
+  }
+}

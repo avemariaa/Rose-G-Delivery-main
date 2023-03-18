@@ -1,0 +1,63 @@
+/*About Us Section*/
+.aboutUs__img img {
+  width: 75%;
+}
+.seeMore__btn {
+  background: #bcc998;
+  color: #000000;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 5px;
+  border: none;
+  display: flex;
+  margin-bottom: 5px;
+}
+.seeMore__btn a:hover,
+.seeMore__btn button:hover {
+  color: #bcc998;
+}
+.aboutUs__desc p,
+.aboutUs__desc h2 {
+  color: #000000;
+  text-align: justify;
+  text-justify: inter-word;
+}
+.aboutUs__desc p {
+  font-size: 1.1rem;
+}
+.aboutUs__desc h2 {
+  text-align: center;
+  position: relative;
+}
+.aboutUs__desc h2:after {
+  content: "";
+  height: 10px;
+  width: 90%;
+  background-color: #bcc998;
+  border-radius: 5px;
+  display: block;
+  margin: auto;
+}
+
+@media only screen and (max-width: 576px) {
+  .aboutUs__img img {
+    width: 60%;
+  }
+  .aboutUs__img {
+    text-align: center;
+  }
+  .aboutUs__desc h2 {
+    text-align: center;
+    margin-top: 25px;
+  }
+  .ourPartners__logo img {
+    width: 25%;
+    margin: 15px 50px 0 50px;
+  }
+  .seeMore__btn {
+    width: 50%;
+    margin: auto;
+    justify-content: center;
+  }
+}

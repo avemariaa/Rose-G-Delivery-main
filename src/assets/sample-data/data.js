@@ -1,0 +1,2 @@
+export const termsCondition =
+  "These Terms of Use (“Terms”) apply to any website, mobile or tablet application, or other on-line service or platform (“Services”) controlled and operated by Rose Garden Special Palabok. Rose Garden requires that all users of the Services agree to the terms and conditions below. By accessing and using the Services, you and any entity you represent (“You”) signify Your agreement with these Terms. If You do not agree with the Terms, You should not use the Services. These Terms also govern our interactions with You on third party platforms.";

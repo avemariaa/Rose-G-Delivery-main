@@ -1,0 +1,30 @@
+.bag__img-box {
+  width: 80px;
+}
+.bag__img-box img {
+  width: 100%;
+}
+.bag__item-del i {
+  cursor: pointer;
+}
+.order__page-btn button a:hover {
+  color: #000;
+}
+.order__subtotal {
+  color: #000;
+  font-size: 1.5rem;
+}
+.continue__btn,
+.checkout__btn {
+  background: #bcc998;
+  border: none;
+  padding: 4px 20px;
+  border-radius: 5px;
+  color: #000;
+}
+.continue__btn a,
+.checkout__btn a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+}

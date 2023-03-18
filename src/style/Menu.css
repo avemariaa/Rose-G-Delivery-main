@@ -1,0 +1,55 @@
+/*By Category Products*/
+.categoriesBtn__slides {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+/* .slides__item {
+  width: 100px;
+} */
+.category__title {
+  justify-content: center;
+}
+.category__btn {
+  width: 80%;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  background: #e8b0af;
+  color: #000000;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 8px;
+  border: 2px solid #000000;
+  display: flex;
+}
+.category__btn:active,
+.category__btn:focus {
+  background-color: #bcc998;
+}
+.menu__iceCream h5,
+.menu__drinks h5 {
+  display: inline-block;
+  position: relative;
+}
+.menu__iceCream h5:after,
+.menu__drinks h5:after {
+  content: "";
+  height: 5px;
+  width: 80%;
+  background-color: #bcc998;
+  border-radius: 5px;
+  display: block;
+}
+
+.menu__Title {
+  display: none;
+}
+
+.menu__search {
+  background: #c4cab7;
+  width: 50%;
+  height: 100px;
+}

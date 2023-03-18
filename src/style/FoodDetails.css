@@ -1,0 +1,63 @@
+.single__product-row {
+  justify-content: center;
+}
+
+.foodProduct__image img {
+  width: 60%;
+  height: auto;
+}
+.foodProduct__price {
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+.foodProduct__price span {
+  font-size: 2rem;
+}
+.foodProduct__category {
+  font-weight: 500;
+  color: #000;
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+  margin-top: 10px;
+}
+.foodProduct__category span {
+  padding: 5px 10px;
+  background: #e8b0af;
+  color: #000;
+  border-radius: 5px;
+}
+.foodProduct_desc p {
+  font-weight: 500;
+  color: #000;
+}
+.foodProduct_desc span {
+  font-weight: 200;
+  color: #000;
+  text-align: justify;
+  text-justify: inter-word;
+}
+.foodProduct__addBtn {
+  background: #bcc998;
+  color: #000000;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 10px;
+  border: 1px solid #000000;
+  margin-bottom: 5px;
+  text-align: center;
+  width: 130px;
+  align-items: center;
+  justify-content: center;
+}
+
+/*Customize Your Order */
+.customize__order {
+  height: auto;
+  width: 100%;
+  border: 1px solid #000000;
+}

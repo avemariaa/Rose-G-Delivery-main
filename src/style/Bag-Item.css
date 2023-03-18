@@ -1,0 +1,40 @@
+.bag__item-info img {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+}
+.bag__product-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.bag__product-price {
+  font-size: 0.8rem;
+}
+.bag__product-price {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e8b0af;
+}
+.increase__decrease-btn {
+  padding: 2px 5px;
+  border-radius: 5px;
+}
+.increase__decrease-btn i {
+  background: transparent !important;
+  color: #bcc998;
+  font-size: 1.4rem;
+}
+.increase__btn,
+.decrease__btn {
+  cursor: pointer;
+}
+.delete__btn {
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: inline-flex;
+  margin-top: 5px;
+}
+.bag__item {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f5ece7;
+}
