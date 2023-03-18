@@ -1,42 +1,43 @@
-import { collection, getDocs } from "firebase/firestore";
-import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Container } from "reactstrap";
+// Firebase
 import { db } from "../firebase";
+import { collection, where, getDocs, query } from "firebase/firestore";
 
 export default function UserProfile() {
 
-  const [users, setUsers] = useState([])
+  //------------------ Retrieve User Data ------------------//
+  const [userLoggedUid, setUserLoggedUid] = useState(null);
+  const [userData, setUserData] = useState(null);
 
+  const getUserData = () => {
+    const userDataRef = collection(db, "UserData"); // getting the UserData collection
+    const queryData = query(userDataRef, where("uid", "==", userLoggedUid));
+
+    getDocs(queryData).then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach((doc) => {
+          setUserData(doc.data());
+        });
+      } else {
+        //navigation.navigate("Login");
+        console.log("Empty user document");
+      }
+    });
+  };
   useEffect(() => {
-    getUsers()
-  }, [])
-
-  useEffect(() => {
-    console.log(users)
-  }, [users])
-
-  const getUsers = async () => {
-    const userDataRef = collection(db, "UserData")
-    getDocs(userDataRef)
-      .then(Response => {
-        const anyUser = Response.docs.map(doc => ({
-          data: doc.data(),
-          id: doc.id,
-        }))
-        setUsers(anyUser)
-      })
-      .catch(error => console.log(error.message))
-  }
+    getUserData();
+  }, [userLoggedUid]);
 
   return (
     <section>
       <Container>
         <h3>User Profile</h3>
         <ul>
-          {users.map(user => (
-            <li key={user.id}>{user.data.email}</li>
-          ))}
+          <span>
+            { userData?.firstName || "User"}
+          </span>
         </ul>
         <button className="bagCheckout__btn mt-3">
           <Link to="/settings">Edit Profile</Link>
@@ -46,5 +47,3 @@ export default function UserProfile() {
   )
 
 };
-
-
