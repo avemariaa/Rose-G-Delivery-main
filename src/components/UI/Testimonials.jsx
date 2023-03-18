@@ -80,10 +80,10 @@ const Testimonials = () => {
             </div>
             <div className="testimonials__desc">
               <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas
-                nam natus omnis, nesciunt reprehenderit dolore illo explicabo
-                blanditiis quia, magni iure praesentium saepe rerum consequatur
-                id fuga optio corporis qui.
+              Naglakad ka nang dahan-dahan
+              Sa pasilyo tungo sa altar ng simbahan
+              Hahagkan na't 'di ka bibitawan
+              Wala na 'kong mahihiling pa
               </p>
             </div>
           </div>
