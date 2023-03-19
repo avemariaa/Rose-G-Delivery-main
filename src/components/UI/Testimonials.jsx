@@ -67,7 +67,7 @@ const Testimonials = () => {
                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas
                 nam natus omnis, nesciunt reprehenderit dolore illo explicabo
                 blanditiis quia, magni iure praesentium saepe rerum consequatur
-                id fuga optio corporis qui. 
+                id fuga optio corporis qui.
               </p>
             </div>
           </div>
