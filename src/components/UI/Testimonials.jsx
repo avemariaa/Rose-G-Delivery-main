@@ -64,10 +64,9 @@ const Testimonials = () => {
             </div>
             <div className="testimonials__desc">
               <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas
-                nam natus omnis, nesciunt reprehenderit dolore illo explicabo
-                blanditiis quia, magni iure praesentium saepe rerum consequatur
-                id fuga optio corporis qui.
+              It's me Hi! I'm the problem, it's me At teatime
+              Everybody agrees I'll stare directly at the sun, but never in the mirror
+              It must be exhausting always rooting for the anti-hero
               </p>
             </div>
           </div>
@@ -81,10 +80,10 @@ const Testimonials = () => {
             </div>
             <div className="testimonials__desc">
               <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas
-                nam natus omnis, nesciunt reprehenderit dolore illo explicabo
-                blanditiis quia, magni iure praesentium saepe rerum consequatur
-                id fuga optio corporis qui.
+              Naglakad ka nang dahan-dahan
+              Sa pasilyo tungo sa altar ng simbahan
+              Hahagkan na't 'di ka bibitawan
+              Wala na 'kong mahihiling pa
               </p>
             </div>
           </div>
