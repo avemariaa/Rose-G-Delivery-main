@@ -1,31 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { ListGroup } from "reactstrap";
 import "../style/Bag.css";
-
 import BagItem from "../components/UI/Bag/BagItem";
+
+// Navigation
 import { Link } from "react-router-dom";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { bagUiActions } from "../store/MyBag/bagUiSlice";
-import { bagActions } from "../store/MyBag/bagSlice";
 
 const Bag = () => {
   const dispatch = useDispatch();
   const toggleBag = () => {
     dispatch(bagUiActions.toggle());
   };
+
   const bagProducts = useSelector((state) => state.bag.bagItems);
   const subTotalAmount = useSelector((state) => state.bag.subTotalAmount);
   const totalAmount = useSelector((state) => state.bag.totalAmount);
-
-  // Load bag data from browser storage when the component mounts
-  // useEffect(() => {
-  //   const bagData = localStorage.getItem("bagData");
-  //   if (bagData) {
-  //     dispatch(bagActions.loadBagData(JSON.parse(bagData)));
-  //   }
-  // }, [dispatch]);
 
   return (
     <div className="bag__container">

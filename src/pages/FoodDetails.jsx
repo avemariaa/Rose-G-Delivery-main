@@ -50,8 +50,9 @@ const FoodDetails = () => {
     }
   };
 
-  /*Bag - Functions*/
+  //------------------ Add to Bag Function ------------------//
   const dispatch = useDispatch();
+  // Firebase
   const addToBag = () => {
     dispatch(
       bagActions.addItem({
@@ -62,11 +63,10 @@ const FoodDetails = () => {
         foodQty: quantity,
       })
     );
-
-    const docRef = doc(db, "UserBag", auth.currentUser.uid);
-
     const totalPrice = foodData?.price * quantity;
 
+    // Add item to firebase
+    const docRef = doc(db, "UserBag", auth.currentUser.uid);
     const data1 = {
       foodId: id,
       foodName: foodData?.foodName,

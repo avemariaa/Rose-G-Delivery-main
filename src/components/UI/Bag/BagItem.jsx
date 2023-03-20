@@ -15,6 +15,7 @@ const BagItem = ({ item }) => {
   const dispatch = useDispatch();
 
   //------------------ Increment Item Function ------------------//
+  // Firebase
   const incrementItem = async () => {
     const userBagRef = doc(db, "UserBag", auth.currentUser.uid);
     const userBagData = await getDoc(userBagRef);
@@ -48,6 +49,7 @@ const BagItem = ({ item }) => {
   };
 
   //------------------ Decrement Item Function ------------------//
+  // Firebase
   const decreaseItem = async () => {
     const userBagRef = doc(db, "UserBag", auth.currentUser.uid);
     const userBagData = await getDoc(userBagRef);

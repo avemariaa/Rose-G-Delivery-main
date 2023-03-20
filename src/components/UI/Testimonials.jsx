@@ -64,9 +64,10 @@ const Testimonials = () => {
             </div>
             <div className="testimonials__desc">
               <p>
-              It's me Hi! I'm the problem, it's me At teatime
-              Everybody agrees I'll stare directly at the sun, but never in the mirror
-              It must be exhausting always rooting for the anti-hero
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas
+                nam natus omnis, nesciunt reprehenderit dolore illo explicabo
+                blanditiis quia, magni iure praesentium saepe rerum consequatur
+                id fuga optio corporis qui.
               </p>
             </div>
           </div>
@@ -79,7 +80,7 @@ const Testimonials = () => {
               <span>Sung Jinwoo2</span>
             </div>
             <div className="testimonials__desc">
-            <p>
+              <p>
                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas
                 nam natus omnis, nesciunt reprehenderit dolore illo explicabo
                 blanditiis quia, magni iure praesentium saepe rerum consequatur

@@ -133,7 +133,8 @@ const Header = () => {
   }, []);
 
   // Check if user is anonymous
-  const isAnonymous = user?.providerData?.[0]?.providerId === "anonymous";
+  // const isAnonymous = user?.providerData?.[0]?.providerId === "anonymous";
+  // console.log(isAnonymous);
 
   // Only show login and sign up links when user is not logged in
   const authLinks = user ? null : (
@@ -233,9 +234,11 @@ const Header = () => {
                     src={userIcon}
                     alt="user-icon"
                   />
-
+                  {/* Determine if the user log in as a guest or not  */}
                   <span>
-                    {isAnonymous ? "Guest" : userData?.firstName || "User"}
+                    {user && user.isAnonymous
+                      ? "Guest"
+                      : userData?.firstName || "User"}
                   </span>
                 </button>
                 {open && (

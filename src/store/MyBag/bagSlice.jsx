@@ -70,6 +70,9 @@ const bagSlice = createSlice({
         }
       }
 
+      // update localStorage
+      // localStorage.setItem("bagItems", JSON.stringify(state.bagItems));
+
       state.subTotalAmount = state.bagItems.reduce(
         (subTotal, item) =>
           subTotal + Number(item.price) * Number(item.foodQty),
@@ -110,15 +113,12 @@ const bagSlice = createSlice({
       );
     },
 
-    loadBagData(state, action) {
-      if (Array.isArray(action.payload)) {
-        state.bagItems = action.payload;
-      } else {
-        state.bagItems = [];
-      }
+    setBagItems(state, action) {
+      state.bagItems = action.payload;
     },
   },
 });
 
+export const bagReducer = bagSlice.reducer;
 export const bagActions = bagSlice.actions;
 export default bagSlice;
