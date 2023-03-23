@@ -33,7 +33,6 @@ export default function UserProfile() {
     <section>
       <Container>
         <h3>User Profile</h3>
-        <h4>try nga</h4>
         <ul>
           <span>{userData?.firstName || "User"}</span>
         </ul>
