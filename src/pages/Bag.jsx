@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ListGroup } from "reactstrap";
 import "../style/Bag.css";
 import BagItem from "../components/UI/Bag/BagItem";
@@ -9,6 +9,18 @@ import { Link } from "react-router-dom";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { bagUiActions } from "../store/MyBag/bagUiSlice";
+import { bagActions } from "../store/MyBag/bagSlice";
+
+// Firebase
+import { db, auth } from "../firebase";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  onSnapshot,
+} from "firebase/firestore";
 
 const Bag = () => {
   const dispatch = useDispatch();
@@ -16,9 +28,41 @@ const Bag = () => {
     dispatch(bagUiActions.toggle());
   };
 
+  const [bagItemsFromFirebase, setBagItemsFromFirebase] = useState([]); // Firebase
   const bagProducts = useSelector((state) => state.bag.bagItems);
   const subTotalAmount = useSelector((state) => state.bag.subTotalAmount);
   const totalAmount = useSelector((state) => state.bag.totalAmount);
+
+  // Synchronize Redux and Firebase data
+  useEffect(() => {
+    const userId = auth.currentUser.uid;
+    const bagItemsCollection = collection(db, "UserBag");
+    const bagItemsQuery = query(
+      bagItemsCollection,
+      where("userId", "==", userId)
+    );
+
+    const unsubscribe = onSnapshot(bagItemsQuery, (snapshot) => {
+      const bagItems = [];
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        bagItems.push({ id: doc.id, ...data });
+      });
+      setBagItemsFromFirebase(bagItems);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const bagItems = [...bagProducts, ...bagItemsFromFirebase];
+
+  useEffect(() => {
+    if (JSON.stringify(bagItems) !== JSON.stringify(bagProducts)) {
+      dispatch(bagActions.setBagItems(bagItems));
+    }
+  }, [dispatch, bagItems, bagProducts]);
+
+  console.log("Bag Items:", bagItems);
 
   return (
     <div className="bag__container">
@@ -30,10 +74,10 @@ const Bag = () => {
         </div>
 
         <div className="bag__item-list">
-          {bagProducts && bagProducts.length === 0 ? (
+          {bagItems && bagItems.length === 0 ? (
             <h6 className="text-center mt-5">No item added to the cart</h6>
           ) : (
-            bagProducts.map((item) => <BagItem item={item} key={item.foodId} />)
+            bagItems.map((item) => <BagItem item={item} key={item.foodId} />)
           )}
         </div>
 

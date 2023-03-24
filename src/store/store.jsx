@@ -49,6 +49,7 @@ const rootReducer = combineReducers({
 const resettableReducer = (state, action) => {
   if (action.type === "user/userLogOutState") {
     state = undefined;
+    localStorage.clear();
   }
 
   if (action.type === "user/userLogInState") {

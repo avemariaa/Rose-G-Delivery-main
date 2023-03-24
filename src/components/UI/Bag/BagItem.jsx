@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { ListGroupItem } from "reactstrap";
 import "../../../style/Bag-Item.css";
 
@@ -114,8 +114,55 @@ const BagItem = ({ item }) => {
     );
   };
 
+  //------------------ Retrieve UserBag Data ------------------//
+  // const [bagItems, setBagItems] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchBagItems = async () => {
+  //     const userBagRef = doc(db, "UserBag", auth.currentUser.uid);
+  //     const userBagDoc = await getDoc(userBagRef);
+  //     if (userBagDoc.exists()) {
+  //       setBagItems(userBagDoc.data().bag);
+  //     }
+  //   };
+
+  //   fetchBagItems();
+  // }, []);
+
   return (
     <ListGroupItem className="border-0 bag__item">
+      {/* {bagItems.map((item) => {
+        return (
+          <div className="bag__item-info d-flex gap-2" key={item.foodId}>
+            <img src={item.img} alt="product-img" />
+
+            <div className="bag__product-info w-100 d-flex align-items-center gap-4 justify-content-between">
+              <div>
+                <h6 className="bag__product-title">{item.foodName}</h6>
+                <p className="d-flex align-items-center gap-5 ">
+                  <div className="d-flex align-items-center gap-3 increase__decrease-btn">
+                    <span className="increase__btn" onClick={incrementItem}>
+                      <i class="ri-add-circle-fill"></i>
+                    </span>
+                    <span className="quantity__title">{foodQty}</span>
+                    <span className="decrease__btn" onClick={decreaseItem}>
+                      <i class="ri-indeterminate-circle-fill"></i>
+                    </span>
+                  </div>
+
+                  <span className="bag__product-price">
+                    ₱ {parseFloat(price * foodQty).toFixed(2)}
+                  </span>
+                </p>
+              </div>
+
+              <span className="delete__btn" onClick={deleteItem}>
+                <i class="ri-delete-bin-line"></i>
+              </span>
+            </div>
+          </div>
+        );
+      })} */}
       <div className="bag__item-info d-flex gap-2">
         <img src={img} alt="product-img" />
 
