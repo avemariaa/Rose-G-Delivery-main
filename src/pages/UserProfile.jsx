@@ -3,38 +3,29 @@ import { Link } from "react-router-dom";
 import { Container } from "reactstrap";
 // Firebase
 import { db } from "../firebase";
-import { collection, where, getDocs, query } from "firebase/firestore";
+import { getDoc, setDoc, doc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
-export default function UserProfile() {
-  //------------------ Retrieve User Data ------------------//
-  const [userLoggedUid, setUserLoggedUid] = useState(null);
-  const [userData, setUserData] = useState(null);
+const auth = getAuth();
+const user = auth.currentUser;
 
-  const getUserData = () => {
-    const userDataRef = collection(db, "UserData"); // getting the UserData collection
-    const queryData = query(userDataRef, where("uid", "==", userLoggedUid));
+if (user !== null) {
+  user.providerData.forEach((profile) => {
+    console.log("Sign-in provider: " + profile.providerId);
+    console.log("  Provider-specific UID: " + profile.uid);
+    console.log("  First Name: " + profile.firstName);
+    console.log("  Email: " + profile.email);
+  });
+}
 
-    getDocs(queryData).then((querySnapshot) => {
-      if (!querySnapshot.empty) {
-        querySnapshot.forEach((doc) => {
-          setUserData(doc.data());
-        });
-      } else {
-        //navigation.navigate("Login");
-        console.log("Empty user document");
-      }
-    });
-  };
-  useEffect(() => {
-    getUserData();
-  }, [userLoggedUid]);
-
+const UserProfile = () => {
   return (
     <section>
       <Container>
         <h3>User Profile</h3>
         <ul>
-          <span>{userData?.firstName || "User"}</span>
+          <span>Email: {user.email}</span>
+          <span>First: burikat {user.firstName}</span>
         </ul>
         <button className="bagCheckout__btn mt-3">
           <Link to="/settings">Edit Profile</Link>
@@ -42,4 +33,6 @@ export default function UserProfile() {
       </Container>
     </section>
   );
-}
+};
+
+export default UserProfile;

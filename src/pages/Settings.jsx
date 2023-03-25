@@ -1,5 +1,35 @@
 import React from "react";
-import { Card, CardHeader, ListGroup, ListGroupItem, Row, Col, Form, FormGroup, Input, Button } from "reactstrap";
+import {
+  Card,
+  CardHeader,
+  ListGroup,
+  ListGroupItem,
+  Row,
+  Col,
+  Form,
+  FormGroup,
+  Input,
+  Button,
+} from "reactstrap";
+
+// Firebase
+import { db } from "../firebase";
+import { getDoc, setDoc, doc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+
+const auth = getAuth();
+const user = auth.currentUser;
+
+if (user !== null) {
+  user.providerData.forEach((profile) => {
+    console.log("Sign-in provider: " + profile.providerId);
+    console.log("  Provider-specific UID: " + profile.uid);
+    console.log("  Name: " + profile.firstName);
+    console.log("  Email: " + profile.email);
+    console.log("  Photo URL: " + profile.photoURL);
+    const firstName = user.firstName;
+  });
+}
 
 const Settings = () => (
   <Card small className="mb-4">
@@ -17,8 +47,8 @@ const Settings = () => (
                   <label htmlFor="feFirstName">First Name</label>
                   <Input
                     id="feFirstName"
-                    placeholder="First Name"
-                    onChange={() => { }}
+                    placeholder={user.firstName}
+                    onChange={() => {}}
                   />
                 </Col>
                 {/* Last Name */}
@@ -27,7 +57,7 @@ const Settings = () => (
                   <Input
                     id="feLastName"
                     placeholder="Last Name"
-                    onChange={() => { }}
+                    onChange={() => {}}
                   />
                 </Col>
               </Row>
@@ -38,8 +68,8 @@ const Settings = () => (
                   <Input
                     type="email"
                     id="feEmail"
-                    placeholder="Email Address"
-                    onChange={() => { }}
+                    placeholder={user.email}
+                    onChange={() => {}}
                     autoComplete="email"
                   />
                 </Col>
@@ -50,7 +80,7 @@ const Settings = () => (
                     type="password"
                     id="fePassword"
                     placeholder="Password"
-                    onChange={() => { }}
+                    onChange={() => {}}
                     autoComplete="current-password"
                   />
                 </Col>
@@ -60,7 +90,7 @@ const Settings = () => (
                 <Input
                   id="feAddress"
                   placeholder="Address"
-                  onChange={() => { }}
+                  onChange={() => {}}
                 />
               </FormGroup>
 
@@ -72,6 +102,5 @@ const Settings = () => (
     </ListGroup>
   </Card>
 );
-
 
 export default Settings;
