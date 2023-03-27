@@ -25,7 +25,7 @@ const UserProfile = () => {
         <h3>User Profile</h3>
         <ul>
           <span>Email: {user.email}</span>
-          <span>First: burikat {user.firstName}</span>
+          <span>First:{user.firstName}</span>
         </ul>
         <button className="bagCheckout__btn mt-3">
           <Link to="/settings">Edit Profile</Link>

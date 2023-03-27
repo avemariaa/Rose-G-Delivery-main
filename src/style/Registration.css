@@ -92,3 +92,13 @@
   font-size: 1rem;
   font-weight: 600;
 }
+@media only screen and (min-width: 570px) {
+  .registration__form,
+  .authForm__container,
+  .input__field {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    display: flex;
+  }
+}

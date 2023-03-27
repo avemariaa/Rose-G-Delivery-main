@@ -13,6 +13,7 @@ import {
 } from "reactstrap";
 
 // Firebase
+import firebase from "firebase/app";
 import { db } from "../firebase";
 import { getDoc, setDoc, doc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
@@ -47,7 +48,7 @@ const Settings = () => (
                   <label htmlFor="feFirstName">First Name</label>
                   <Input
                     id="feFirstName"
-                    placeholder={user.firstName}
+                    placeholder="Ave"
                     onChange={() => {}}
                   />
                 </Col>
