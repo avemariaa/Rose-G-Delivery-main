@@ -15,10 +15,40 @@
   color: #bcc998;
   font-size: 2.5rem;
   border: 0;
+  flex-wrap: wrap;
 }
 .ftProdPrev__btn {
   left: 1%;
 }
 .ftProdNext__btn {
   right: 1%;
+}
+@media only screen and (max-width: 768px) {
+  .ftProdPrev__btn,
+  .ftProdNext__btn {
+    border-radius: 8px;
+    color: brown;
+    font-size: 2.5rem;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .ftProdPrev__btn,
+  .ftProdNext__btn {
+    color: aqua;
+    border-radius: 8px;
+    font-size: 2.5rem;
+    background: #42a5f6;
+    border: none;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .ftProdPrev__btn {
+    left: 1%;
+    float: left;
+  }
+  .ftProdNext__btn {
+    right: 1%;
+  }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  Card,
+  Container,
   CardHeader,
   ListGroup,
   ListGroupItem,
@@ -33,9 +33,9 @@ if (user !== null) {
 }
 
 const Settings = () => (
-  <Card small className="mb-4">
+  <Container small className="mb-4">
     <CardHeader className="border-bottom">
-      <h6 className="m-0">User Settings</h6>
+      <h3 className="m-0">User Settings</h3>
     </CardHeader>
     <ListGroup flush>
       <ListGroupItem className="p-3">
@@ -48,7 +48,7 @@ const Settings = () => (
                   <label htmlFor="feFirstName">First Name</label>
                   <Input
                     id="feFirstName"
-                    placeholder="Ave"
+                    placeholder="First Name"
                     onChange={() => {}}
                   />
                 </Col>
@@ -94,14 +94,13 @@ const Settings = () => (
                   onChange={() => {}}
                 />
               </FormGroup>
-
               <Button theme="accent">Update Account</Button>
             </Form>
           </Col>
         </Row>
       </ListGroupItem>
     </ListGroup>
-  </Card>
+  </Container>
 );
 
 export default Settings;
