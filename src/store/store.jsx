@@ -28,28 +28,10 @@ const rootReducer = combineReducers({
   user: userReducer,
 });
 
-// const resettableReducer = (state, action) => {
-//   if (action.type === "user/userLogOutState") {
-//     state = undefined;
-//   }
-
-//   if (action.type === "user/userLogInState") {
-//     const persistedBagState = JSON.parse(localStorage.getItem("bagData"));
-//     state = {
-//       ...state,
-//       bag: {
-//         ...state.bag,
-//         ...persistedBagState,
-//       },
-//     };
-//   }
-
-//   return rootReducer(state, action);
-// };
 const resettableReducer = (state, action) => {
   if (action.type === "user/userLogOutState") {
     state = undefined;
-    localStorage.clear();
+    // localStorage.clear();
   }
 
   if (action.type === "user/userLogInState") {

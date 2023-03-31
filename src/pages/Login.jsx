@@ -37,6 +37,7 @@ import {
   userLogOutState,
   selectUser,
 } from "../store/UserSlice/userSlice";
+import { fetchBagItems } from "../store/MyBag/bagSlice";
 
 const Login = () => {
   const [email, setEmail] = useState(null);
@@ -89,6 +90,7 @@ const Login = () => {
         if (auth.currentUser.emailVerified) {
           alert("Logged in successfully");
           navigate("/home");
+          dispatch(fetchBagItems(auth.currentUser.uid));
           // Prevent user from going back to login page
           window.history.pushState(null, "", "/home");
           window.addEventListener("popstate", function (event) {

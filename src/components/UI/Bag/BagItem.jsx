@@ -7,15 +7,22 @@ import { auth, db } from "../../../firebase";
 import { deleteDoc, getDoc, updateDoc, doc } from "firebase/firestore";
 
 // Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { bagActions } from "../../../store/MyBag/bagSlice";
+import { fetchBagItems } from "../../../store/MyBag/bagSlice";
+
 const BagItem = ({ item }) => {
   const { foodId, foodName, price, img, foodQty, totalPrice } = item;
 
   const dispatch = useDispatch();
 
+  const bagItems = useSelector((state) => state.bag.bagItems);
+
+  useEffect(() => {
+    dispatch(fetchBagItems(auth.currentUser.uid)); //retrieve user's bag items
+  }, [dispatch]);
+
   //------------------ Increment Item Function ------------------//
-  // Firebase
   const incrementItem = async () => {
     const userBagRef = doc(db, "UserBag", auth.currentUser.uid);
     const userBagData = await getDoc(userBagRef);
@@ -49,7 +56,6 @@ const BagItem = ({ item }) => {
   };
 
   //------------------ Decrement Item Function ------------------//
-  // Firebase
   const decreaseItem = async () => {
     const userBagRef = doc(db, "UserBag", auth.currentUser.uid);
     const userBagData = await getDoc(userBagRef);
@@ -114,61 +120,14 @@ const BagItem = ({ item }) => {
     );
   };
 
-  //------------------ Retrieve UserBag Data ------------------//
-  // const [bagItems, setBagItems] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchBagItems = async () => {
-  //     const userBagRef = doc(db, "UserBag", auth.currentUser.uid);
-  //     const userBagDoc = await getDoc(userBagRef);
-  //     if (userBagDoc.exists()) {
-  //       setBagItems(userBagDoc.data().bag);
-  //     }
-  //   };
-
-  //   fetchBagItems();
-  // }, []);
-
   return (
     <ListGroupItem className="border-0 bag__item">
-      {/* {bagItems.map((item) => {
-        return (
-          <div className="bag__item-info d-flex gap-2" key={item.foodId}>
-            <img src={item.img} alt="product-img" />
-
-            <div className="bag__product-info w-100 d-flex align-items-center gap-4 justify-content-between">
-              <div>
-                <h6 className="bag__product-title">{item.foodName}</h6>
-                <p className="d-flex align-items-center gap-5 ">
-                  <div className="d-flex align-items-center gap-3 increase__decrease-btn">
-                    <span className="increase__btn" onClick={incrementItem}>
-                      <i class="ri-add-circle-fill"></i>
-                    </span>
-                    <span className="quantity__title">{foodQty}</span>
-                    <span className="decrease__btn" onClick={decreaseItem}>
-                      <i class="ri-indeterminate-circle-fill"></i>
-                    </span>
-                  </div>
-
-                  <span className="bag__product-price">
-                    ₱ {parseFloat(price * foodQty).toFixed(2)}
-                  </span>
-                </p>
-              </div>
-
-              <span className="delete__btn" onClick={deleteItem}>
-                <i class="ri-delete-bin-line"></i>
-              </span>
-            </div>
-          </div>
-        );
-      })} */}
-      <div className="bag__item-info d-flex gap-2">
-        <img src={img} alt="product-img" />
+      <div className="bag__item-info d-flex gap-2" key={item.foodId}>
+        <img src={item.img} alt="product-img" />
 
         <div className="bag__product-info w-100 d-flex align-items-center gap-4 justify-content-between">
           <div>
-            <h6 className="bag__product-title">{foodName}</h6>
+            <h6 className="bag__product-title">{item.foodName}</h6>
             <p className="d-flex align-items-center gap-5 ">
               <div className="d-flex align-items-center gap-3 increase__decrease-btn">
                 <span className="increase__btn" onClick={incrementItem}>

@@ -13,7 +13,6 @@ import {
   Button,
 } from "reactstrap";
 // Firebase
-
 import { db } from "../firebase";
 import { getDoc, setDoc, doc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";

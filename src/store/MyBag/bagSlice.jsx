@@ -1,4 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+// Firebase
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+
+export const fetchBagItems = createAsyncThunk(
+  "bag/fetchBagItems",
+  async (userId) => {
+    const userBagRef = doc(db, "UserBag", userId);
+    const userBagDoc = await getDoc(userBagRef);
+    if (userBagDoc.exists()) {
+      const bagItems = userBagDoc.data().bag;
+      const totalQuantity = bagItems.length; // count the number of items in the bag
+      return { bagItems, totalQuantity };
+    }
+    return initialState;
+  }
+);
 
 const initialState = {
   bagItems: [],
@@ -15,11 +33,11 @@ const bagSlice = createSlice({
     //------------------ Add Item ------------------//
     addItem(state, action) {
       const newItem = action.payload;
-      const existingItem = state.bagItems.find(
+      const existingItemIndex = state.bagItems.findIndex(
         (item) => item.foodId === newItem.foodId
       );
 
-      if (!existingItem) {
+      if (existingItemIndex === -1) {
         state.bagItems.push({
           foodId: newItem.foodId,
           foodName: newItem.foodName,
@@ -31,6 +49,7 @@ const bagSlice = createSlice({
         // if the item added is not existing, +1 on the bag badge
         state.totalQuantity++;
       } else {
+        const existingItem = state.bagItems[existingItemIndex];
         existingItem.foodQty++;
         existingItem.totalPrice =
           Number(existingItem.totalPrice) + Number(newItem.price);
@@ -117,8 +136,29 @@ const bagSlice = createSlice({
       state.bagItems = action.payload;
     },
   },
+
+  extraReducers: (builder) => {
+    builder.addCase(fetchBagItems.fulfilled, (state, action) => {
+      state.bagItems = action.payload.bagItems;
+      state.totalQuantity = action.payload.totalQuantity;
+      state.subTotalAmount = state.bagItems.reduce(
+        (subTotal, item) =>
+          subTotal + Number(item.price) * Number(item.foodQty),
+        0
+      );
+      state.totalAmount = state.bagItems.reduce(
+        (total, item) => total + Number(item.price) * Number(item.foodQty),
+        +50,
+        0
+      );
+    });
+  },
 });
 
 export const bagReducer = bagSlice.reducer;
-export const bagActions = bagSlice.actions;
+// export const bagActions = bagSlice.actions;
+export const bagActions = {
+  ...bagSlice.actions,
+  fetchBagItems,
+};
 export default bagSlice;

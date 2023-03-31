@@ -57,7 +57,6 @@ const Header = () => {
 
   //------------------ User Profile Drop Down ------------------//
   const [open, setOpen] = useState(false);
-
   const toggleProfileMenu = () => {
     setOpen(!open);
   };
