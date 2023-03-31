@@ -19,6 +19,7 @@ import { getDoc, setDoc, doc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const auth = getAuth();
+
 const user = auth.currentUser;
 
 if (user !== null) {
@@ -35,7 +36,7 @@ if (user !== null) {
 const Settings = () => (
   <Container small className="mb-4">
     <CardHeader className="border-bottom">
-      <h3 className="m-0">User Settings</h3>
+      <h3 className="m-0"> Settings</h3>
     </CardHeader>
     <ListGroup flush>
       <ListGroupItem className="p-3">
